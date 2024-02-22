@@ -1,44 +1,42 @@
 "use client";
 
+import { useGetParamURL, useUpdateURL } from "@/lib/hooks";
+import { ParamsType } from "@/lib/types";
 import { createUrl } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-export default function SearchInput(typeName: any) {
+export default function SearchInput() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const searchParam = useGetParamURL("search");
 
   const optionSearchParams = new URLSearchParams(searchParams.toString());
-  const [searchValue, setSearchValue] = useState(
-    optionSearchParams.get("search") || ""
-  );
+  const [searchValue, setSearchValue] = useState(searchParam);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
-  };
+  // const [params, setURLParams] = useUpdateURL([])
+  const [urlParams, updateURLParams] = useUpdateURL([]);
 
   const handleSearch = () => {
     // Obtener el valor del campo de texto
     const inputValue = searchValue.trim();
 
     // Validar si el campo está vacío
-    if (inputValue === "") {
-      console.log("Campo de búsqueda vacío. Por favor, ingresa un valor.");
-      // Puedes agregar aquí la lógica adicional para manejar el campo vacío, como mostrar un mensaje de error.
-      return;
-    }
+    // if (inputValue === "") {
+    //   console.log("Campo de búsqueda vacío. Por favor, ingresa un valor.");
+    //   return;
+    // }
 
-    // Lógica de búsqueda o cualquier otra acción que desees realizar con el valor no vacío
-    optionSearchParams.set("search", inputValue);
-    const optionUrl = createUrl(pathname, optionSearchParams);
-    console.log(
-      "Search button clicked! Valor de búsqueda:",
-      inputValue,
-      optionUrl
-    );
-    router.replace(optionUrl, { scroll: false });
-    // Puedes agregar aquí la lógica específica que necesitas para tu aplicación
+    (updateURLParams as (params: ParamsType[]) => void)([
+      { key: "search", value: inputValue },
+    ]);
+
+    console.log("ejecutado");
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
   };
 
   return (
@@ -76,11 +74,8 @@ export default function SearchInput(typeName: any) {
       </div>
       <button
         type="button" // Cambiado de 'submit' a 'button' para evitar que el formulario se envíe automáticamente
-        className={`p-2.5 ms-2 text-sm font-medium text-white ${
-          searchValue.length < 2 ? "bg-neutral-400" : "bg-blue-700"
-        } rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
+        className={`p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
         onClick={handleSearch} // Agregado el evento onClick para llamar a handleSearch
-        disabled={searchValue.length < 2}
       >
         <svg
           className="w-4 h-4"

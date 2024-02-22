@@ -41,3 +41,8 @@ export interface PokemonV2PokemonAggregate {
 export interface Aggregate {
     count: number;
 }
+
+export interface ParamsType {
+    key: string;
+    value: string;
+  }

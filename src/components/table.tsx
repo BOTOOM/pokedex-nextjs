@@ -6,9 +6,9 @@ import { PokemonListType, PokemonV2Pokemon, PokemonV2Pokemontype } from "@/lib/t
 
 export default async function Table({pokemonList}: {pokemonList:PokemonListType}) {
   // const pokemonList = await getPokemonList("pik");
-  console.log(
-    pokemonList
-  );
+  // console.log(
+  //   pokemonList
+  // );
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
