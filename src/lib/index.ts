@@ -1,4 +1,5 @@
 import { getPokemonListQuery } from "./queries";
+import { PokemonListType } from "./types";
 
 const endpoint = `https://beta.pokeapi.co/graphql/v1beta`;
 
@@ -62,7 +63,7 @@ export async function pokeApiFetch<T>({
   }
 }
 
-export async function getPokemonList(handle: string): Promise<any> {
+export async function getPokemonList(handle: string): Promise<PokemonListType> {
   const res = await pokeApiFetch<any>({
     query: getPokemonListQuery,
     // tags: [TAGS.collections],
