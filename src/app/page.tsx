@@ -1,9 +1,18 @@
 // import { Alert } from "flowbite-react";
 import SearchInput from "@/components/search";
 import Table from "@/components/table";
+import { getPokemonList } from "@/lib";
 import { Flowbite } from "flowbite-react";
 
-export default function Home() {
+export default async function Home({
+  params,
+  searchParams,
+}: {
+  params: { slug: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
+  console.log(searchParams);
+  const pokemonList = await getPokemonList(searchParams["search"] as string || "");
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <Flowbite>
@@ -28,9 +37,9 @@ export default function Home() {
                       >
                         <path
                           stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                           d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                         />
                       </svg>
@@ -44,7 +53,7 @@ export default function Home() {
                   </div>
                 </div> */}
                 <SearchInput/>
-                <Table></Table>
+                <Table pokemonList={pokemonList}></Table>
               </div>
 
               {/* Aquí irá la lista de Pokémon */}

@@ -2,9 +2,10 @@ import { getPokemonList } from "@/lib";
 import BadgeType from "./badgeType";
 import Image from "next/image";
 import PaginationButtons from "./pagination";
+import { PokemonListType, PokemonV2Pokemon, PokemonV2Pokemontype } from "@/lib/types";
 
-export default async function Table() {
-  const pokemonList = await getPokemonList("pik");
+export default async function Table({pokemonList}: {pokemonList:PokemonListType}) {
+  // const pokemonList = await getPokemonList("pik");
   console.log(
     pokemonList
   );
@@ -29,7 +30,7 @@ export default async function Table() {
             </tr>
           </thead>
           <tbody>
-            {pokemonList.pokemon_v2_pokemon.map((pokemon: any) => {
+            {pokemonList.pokemon_v2_pokemon.map((pokemon: PokemonV2Pokemon) => {
               return (
                 <tr
                   key={`poke-id-${pokemon.id}`}
@@ -57,7 +58,7 @@ export default async function Table() {
                     </div>
                   </th>
                   <td className="px-6 py-4">
-                    {pokemon.pokemon_v2_pokemontypes.map((types: any) => {
+                    {pokemon.pokemon_v2_pokemontypes.map((types: PokemonV2Pokemontype) => {
                       return (
                         <BadgeType
                           key={`poke-id-${pokemon.id}-type-${types.pokemon_v2_type.name}`}
