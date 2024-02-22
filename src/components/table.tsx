@@ -1,14 +1,34 @@
-import { getPokemonList } from "@/lib";
+"use client";
+
 import BadgeType from "./badgeType";
 import Image from "next/image";
 import PaginationButtons from "./pagination";
-import { PokemonListType, PokemonV2Pokemon, PokemonV2Pokemontype } from "@/lib/types";
+import {
+  ParamsType,
+  PokemonListType,
+  PokemonV2Pokemon,
+  PokemonV2Pokemontype,
+} from "@/lib/types";
+import { useGetParamURL, useUpdateURL } from "@/lib/hooks";
+import { useState } from "react";
 
-export default async function Table({pokemonList}: {pokemonList:PokemonListType}) {
-  // const pokemonList = await getPokemonList("pik");
-  // console.log(
-  //   pokemonList
-  // );
+export default function Table({
+  pokemonList,
+}: {
+  pokemonList: PokemonListType;
+}) {
+  // const selectedID = useGetParamURL("selectedID");
+
+  // const [selectedIDValue, setSelectedIDValue] = useState(selectedID);
+
+  const [urlParams, updateURLParams] = useUpdateURL([]);
+  const handleSelect = (id: number) => (event: React.MouseEvent<HTMLTableRowElement>) => {
+    // const inputValue = selectedIDValue.trim();
+    (updateURLParams as (params: ParamsType[]) => void)([
+      { key: "selectedID", value: String(id) },
+    ]);
+
+  };
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -35,6 +55,7 @@ export default async function Table({pokemonList}: {pokemonList:PokemonListType}
                 <tr
                   key={`poke-id-${pokemon.id}`}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                  onClick={handleSelect(pokemon.id)}
                 >
                   <td className="px-6 py-4">{pokemon.id}</td>
                   <th
@@ -58,14 +79,16 @@ export default async function Table({pokemonList}: {pokemonList:PokemonListType}
                     </div>
                   </th>
                   <td className="px-6 py-4">
-                    {pokemon.pokemon_v2_pokemontypes.map((types: PokemonV2Pokemontype) => {
-                      return (
-                        <BadgeType
-                          key={`poke-id-${pokemon.id}-type-${types.pokemon_v2_type.name}`}
-                          typeName={types.pokemon_v2_type.name}
-                        />
-                      );
-                    })}
+                    {pokemon.pokemon_v2_pokemontypes.map(
+                      (types: PokemonV2Pokemontype) => {
+                        return (
+                          <BadgeType
+                            key={`poke-id-${pokemon.id}-type-${types.pokemon_v2_type.name}`}
+                            typeName={types.pokemon_v2_type.name}
+                          />
+                        );
+                      }
+                    )}
                   </td>
                   <td className="px-6 py-4">
                     <a
@@ -80,22 +103,9 @@ export default async function Table({pokemonList}: {pokemonList:PokemonListType}
             })}
           </tbody>
         </table>
-        <nav
-          className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
-          aria-label="Table navigation"
-        >
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-            Showing{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              1-10
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {pokemonList.pokemon_v2_pokemon_aggregate.aggregate.count}
-            </span>
-          </span>
-          <PaginationButtons totals={pokemonList.pokemon_v2_pokemon_aggregate.aggregate.count} />
-        </nav>
+        <PaginationButtons
+          totals={pokemonList.pokemon_v2_pokemon_aggregate.aggregate.count}
+        />
       </div>
     </>
   );

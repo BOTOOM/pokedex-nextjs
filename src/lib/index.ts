@@ -63,15 +63,21 @@ export async function pokeApiFetch<T>({
   }
 }
 
-export async function getPokemonList(handle: string): Promise<PokemonListType> {
+export async function getPokemonList(
+  handle: string,
+  limit: number,
+  offset: number
+): Promise<PokemonListType> {
   const res = await pokeApiFetch<any>({
     query: getPokemonListQuery,
     // tags: [TAGS.collections],
     variables: {
       handle,
+      limit,
+      offset,
     },
   });
   // return getColecciones(handle);
 
-  return (res.body.data);
+  return res.body.data;
 }

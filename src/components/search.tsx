@@ -2,32 +2,17 @@
 
 import { useGetParamURL, useUpdateURL } from "@/lib/hooks";
 import { ParamsType } from "@/lib/types";
-import { createUrl } from "@/lib/utils";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function SearchInput() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
   const searchParam = useGetParamURL("search");
 
-  const optionSearchParams = new URLSearchParams(searchParams.toString());
   const [searchValue, setSearchValue] = useState(searchParam);
 
-  // const [params, setURLParams] = useUpdateURL([])
   const [urlParams, updateURLParams] = useUpdateURL([]);
 
   const handleSearch = () => {
-    // Obtener el valor del campo de texto
     const inputValue = searchValue.trim();
-
-    // Validar si el campo está vacío
-    // if (inputValue === "") {
-    //   console.log("Campo de búsqueda vacío. Por favor, ingresa un valor.");
-    //   return;
-    // }
-
     (updateURLParams as (params: ParamsType[]) => void)([
       { key: "search", value: inputValue },
     ]);
@@ -73,9 +58,9 @@ export default function SearchInput() {
         />
       </div>
       <button
-        type="button" // Cambiado de 'submit' a 'button' para evitar que el formulario se envíe automáticamente
+        type="button"
         className={`p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
-        onClick={handleSearch} // Agregado el evento onClick para llamar a handleSearch
+        onClick={handleSearch} 
       >
         <svg
           className="w-4 h-4"
