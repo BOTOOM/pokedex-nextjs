@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetParamURL, useUpdateURL } from "@/lib/hooks";
-import { ParamsType } from "@/lib/types";
+import { ParamsType } from "@/lib/types/types";
 import { useState } from "react";
 
 export default function SearchInput() {
@@ -11,13 +11,15 @@ export default function SearchInput() {
 
   const [urlParams, updateURLParams] = useUpdateURL([]);
 
-  const handleSearch = () => {
+  const handleSearch = (event: React.FormEvent) => {
+    event.preventDefault()
     const inputValue = searchValue.trim();
     (updateURLParams as (params: ParamsType[]) => void)([
       { key: "search", value: inputValue },
+      { key: "limit", value: "10" },
+      { key: "offset", value: "0" },
     ]);
 
-    console.log("ejecutado");
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +27,7 @@ export default function SearchInput() {
   };
 
   return (
-    <form className="flex items-center max-w-sm mx-auto p-2">
+    <form className="flex items-center max-w-sm mx-auto p-2"  onSubmit={handleSearch}>
       <label htmlFor="simple-search" className="sr-only">
         Search
       </label>
@@ -58,9 +60,10 @@ export default function SearchInput() {
         />
       </div>
       <button
-        type="button"
+        // type="button"
         className={`p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
-        onClick={handleSearch} 
+        // onClick={handleSearch} 
+        type="submit" 
       >
         <svg
           className="w-4 h-4"

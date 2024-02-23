@@ -1,21 +1,18 @@
 "use client";
 
 import { useGetParamURL, useUpdateURL } from "@/lib/hooks";
-import { ParamsType } from "@/lib/types";
+import { ParamsType } from "@/lib/types/types";
 
 export default function PaginationButtons({ totals }: { totals: number }) {
   const totalRecords = totals;
   const totalPages = Math.ceil(totalRecords / 10);
-  console.log(totalPages);
   const limitParam = useGetParamURL("limit");
   const offsetParam = useGetParamURL("offset");
   const totalPerPage =
     limitParam === ""
       ? Number(offsetParam) + 10
       : Number(limitParam) - 1 + Number(offsetParam);
-  console.log({ limitParam, offsetParam, totalPerPage });
   const offsetPage = offsetParam === "" ? 1 : Number(offsetParam);
-  console.log({ limitParam, offsetParam, totalPerPage, offsetPage });
 
   const [urlParams, updateURLParams] = useUpdateURL([]);
   const handleNextPage = () => {

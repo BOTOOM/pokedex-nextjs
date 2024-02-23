@@ -22,3 +22,34 @@ query getPokemonListQuery($handle: String!, $limit: Int!, $offset: Int!) {
   }
 }
 `;
+
+export const getPokemonDetailQuery = /* GraphQL */ `
+query getPokemonDetailQuery($handle: Int!) {
+  pokemon_v2_pokemon(where: {id: {_eq: $handle}}) {
+    name
+    id
+    base_experience
+    pokemon_v2_pokemonsprites {
+      sprites(path: "other.home.front_default")
+    }
+    pokemon_v2_pokemontypes(distinct_on: id) {
+      pokemon_v2_type {
+        name
+      }
+    }
+    height
+    weight
+    pokemon_v2_pokemonspecy {
+      is_mythical
+      is_legendary
+      pokemon_v2_pokemoncolor {
+        name
+      }
+      pokemon_v2_pokemonhabitat {
+        name
+      }
+    }
+  }
+}
+
+`;

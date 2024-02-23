@@ -1,5 +1,6 @@
-import { getPokemonListQuery } from "./queries";
-import { PokemonListType } from "./types";
+import { getPokemonDetailQuery, getPokemonListQuery } from "./queries";
+import { PokemonListType } from "./types/types";
+import { PokemonDetail } from "./types/pokemonDailtType";
 
 const endpoint = `https://beta.pokeapi.co/graphql/v1beta`;
 
@@ -25,7 +26,6 @@ export async function pokeApiFetch<T>({
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        //   'X-Shopify-Storefront-Access-Token': key,
         ...headers,
       },
       body: JSON.stringify({
@@ -47,14 +47,6 @@ export async function pokeApiFetch<T>({
       body,
     };
   } catch (e) {
-    //   if (isShopifyError(e)) {
-    //     throw {
-    //       cause: e.cause?.toString() || 'unknown',
-    //       status: e.status || 500,
-    //       message: e.message,
-    //       query,
-    //     };
-    //   }
 
     throw {
       error: e,
@@ -70,14 +62,31 @@ export async function getPokemonList(
 ): Promise<PokemonListType> {
   const res = await pokeApiFetch<any>({
     query: getPokemonListQuery,
-    // tags: [TAGS.collections],
     variables: {
       handle,
       limit,
       offset,
     },
   });
-  // return getColecciones(handle);
+
+  return res.body.data;
+}
+
+
+export async function getPokemonDetail(
+  handle: string,
+): Promise<PokemonDetail> {
+  if (handle === "0") {
+    return {
+      pokemon_v2_pokemon: []
+    }
+  }
+  const res = await pokeApiFetch<any>({
+    query: getPokemonDetailQuery,
+    variables: {
+      handle,
+    },
+  });
 
   return res.body.data;
 }

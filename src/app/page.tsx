@@ -1,4 +1,4 @@
-import PokemonDetail from "@/components/pokeminDetail";
+import PokemonDetail from "@/components/pokemonDetail";
 import SearchInput from "@/components/search";
 import Table from "@/components/table";
 import { getPokemonList } from "@/lib";
@@ -11,7 +11,6 @@ export default async function Home({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  console.log(searchParams);
   const pokemonList = await getPokemonList(
     (searchParams["search"] as string) || "",
     Number((searchParams["limit"] as string) || "10"),
@@ -32,7 +31,7 @@ export default async function Home({
 
           <div className="col-span-12 md:col-span-3">
             <div className="bg-gray-100 rounded-md p-4">
-              <PokemonDetail/>
+              <PokemonDetail selectedID={Number((searchParams["selectedID"] as string) || "0")}/>
             </div>
           </div>
         </div>

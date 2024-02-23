@@ -1,7 +1,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createUrl } from "./utils";
 import { useEffect, useState } from "react";
-import { ParamsType } from "./types";
+import { ParamsType } from "./types/types";
 
 export function useUpdateURL(initalState: ParamsType[]) {
   const router = useRouter();
@@ -10,7 +10,6 @@ export function useUpdateURL(initalState: ParamsType[]) {
   const [params, setParams] = useState<ParamsType[]>(initalState);
 
   const updateCustomState = (params: ParamsType[]) => {
-    console.log("entramos");
     setParams(params);
   };
   useEffect(() => {
@@ -21,21 +20,11 @@ export function useUpdateURL(initalState: ParamsType[]) {
         optionSearchParams.set(param.key, param.value);
       });
       const optionUrl = createUrl(pathname, optionSearchParams);
-      console.log("nueva url", optionUrl);
       router.replace(optionUrl, { scroll: false });
     }
 
-    // return () => {
-    //   second
-    // }
   }, [params, pathname]);
 
-  //   if (params.length > 0) {
-  //     //   optionSearchParams
-  // //   const optionUrl = createUrl(pathname, optionSearchParams);
-  // //   console.log("nueva url", optionUrl);
-  // //   router.replace(optionUrl, { scroll: false });
-  //   }
   return [params, updateCustomState];
 }
 
