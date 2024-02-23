@@ -20,7 +20,7 @@ export default async function Home({
     <main className="flex min-h-screen flex-col items-center justify-between">
       <Flowbite>
         <div className="grid grid-cols-12 gap-4">
-          <div className="col-span-12 md: col-span-9">
+          <div className="col-span-12 md:col-span-9">
             <div className="bg-gray-100 rounded-md p-4">
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <SearchInput />
@@ -36,21 +36,7 @@ export default async function Home({
           </div>
         </div>
 
-        {/* Modal para dispositivos móviles */}
-        {/* {modalOpen && selectedPokemon && (
-          <Flowbite.Modal
-            size="xl"
-            open={modalOpen}
-            onClose={() => {
-              setModalOpen(false);
-              setSelectedPokemon(null);
-            }}
-          >
-            <Flowbite.ModalBody>
-              Aquí irán los detalles del Pokémon
-            </Flowbite.ModalBody>
-          </Flowbite.Modal>
-        )} */}
+
       </Flowbite>
     </main>
   );

@@ -17,7 +17,7 @@ export default async function PokemonDetail({
       ) : (
         <div className="flex items-center justify-center min-h-screen from-gray-700 via-gray-800 to-gray-900 bg-gradient-to-br">
           <div className="relative w-full group max-w-md min-w-0 mx-auto mt-6 mb-6 break-words bg-white border shadow-2xl dark:bg-gray-800 dark:border-gray-700 md:max-w-sm rounded-xl">
-            <div className="pb-6">
+            <div className="pb-2">
               <div className="flex flex-wrap justify-center">
                 <div className="flex justify-center w-full">
                   <div className="relative">
